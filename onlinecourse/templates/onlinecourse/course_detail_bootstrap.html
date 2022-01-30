@@ -50,6 +50,57 @@
                     </div>
                 {% endfor %}
             </div>
+    </div>
+    <div id="exam" >
+        <form id="questionform" action="point to a submit view" method="post">
+            ... for each question in the course ...
+            <div class="card mt-1">
+                <div class="card-header"><h5>{{ question.question_text}}</h5></div>
+                {% csrf_token %}
+                <div class="form-group">
+                   ... for each choice in the question ...
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input type="checkbox" name="choice_{{choice.id}}"
+                                   class="form-check-input" id="{{choice.id}}"
+                                   value="{{choice.id}}">{{ choice.choice_text }}
+                        </label>
+                    </div>
+                </div>
+            </div>
+        <input class="btn btn-success btn-block" type="submit" value="Submit">
+</form>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <!-- Task: show questions and choices -->
             <!-- <HINT> Use Bootstrap Collapse to hide exam first, more details could be found here
             https://www.w3schools.com/bootstrap4/bootstrap_collapse.asp-->
@@ -97,6 +148,3 @@
 
             <!--Check here to see more details Bootstrap checkbox
              https://www.w3schools.com/bootstrap4/bootstrap_forms_inputs.asp-->
-    </div>
-</body>
-</html>
