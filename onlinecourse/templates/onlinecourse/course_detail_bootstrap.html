@@ -51,14 +51,18 @@
                 {% endfor %}
             </div>
     </div>
-    <div id="exam" >
+    <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#exam">Exam</button>
+    <div id="exam" class="collapse">
+        
         <form id="questionform" action="point to a submit view" method="post">
-            ... for each question in the course ...
+            
+            {% for question in course.question_set.all %}
             <div class="card mt-1">
-                <div class="card-header"><h5>{{ question.question_text}}</h5></div>
+                <div class="card-header"><h5>Question {{question.question_text}}</h5></div>
                 {% csrf_token %}
                 <div class="form-group">
-                   ... for each choice in the question ...
+                    {% for choice in question.choice_set.all %}
+                   
                     <div class="form-check">
                         <label class="form-check-label">
                             <input type="checkbox" name="choice_{{choice.id}}"
@@ -66,10 +70,15 @@
                                    value="{{choice.id}}">{{ choice.choice_text }}
                         </label>
                     </div>
+                    {% endfor %}
+                {% endfor %}
                 </div>
+                
             </div>
+            
+            
         <input class="btn btn-success btn-block" type="submit" value="Submit">
-</form>
+        </form>
     </div>
 </body>
 </html>
