@@ -28,7 +28,7 @@
                         {% csrf_token %}
                         <div class="input-group">
                             <input type="text" class="form-control" placeholder="Username" name="username" >
-                            <input type="password" class="form-control" placeholder="Username" name="psw" >
+                            <input type="password" class="form-control" placeholder="Password" name="psw" >
                             <button class="btn btn-primary" type="submit">Login</button>
                             <a class="btn btn-link" href="{% url 'onlinecourse:registration' %}">Sign Up</a>
                         </div>
@@ -54,11 +54,11 @@
     <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#exam">Exam</button>
     <div id="exam" class="collapse">
         
-        <form id="questionform" action="point to a submit view" method="post">
+        <form id="questionform" action="{% url 'onlinecourse:submit' course.pk%}" method="post">
             
             {% for question in course.question_set.all %}
             <div class="card mt-1">
-                <div class="card-header"><h5>Question {{question.question_text}}</h5></div>
+                <div class="card-header"><h5>{{question.question_text}}</h5></div>
                 {% csrf_token %}
                 <div class="form-group">
                     {% for choice in question.choice_set.all %}
