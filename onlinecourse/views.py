@@ -117,8 +117,9 @@ def submit(request, course_id):
 
     enrollment = Enrollment.objects.get(user=user, course=course)
     submission = Submission.objects.create(enrollment=enrollment)
-    choices = extract_answers(request)
-    print("Printed1",enrollment, submission, choices)
+    selected_choices = extract_answers(request)
+    submission.choices.set(selected_choices)
+    print("Printed1",enrollment, submission, selected_choices)
     submission.save()
     
     
@@ -157,19 +158,23 @@ def show_exam_result(request, course_id, submission_id,):
     course = course_id
     submission = Submission.objects.get(id = submission_id)
     submitted_answers = submission.choices.all()
+    right_answers = submission.choices.filter(is_correct = True)
+    right_count = right_answers.count()
+    wrong_answers = submission.choices.filter(is_correct = False)
+    wrong_count = wrong_answers.count()
     score = 0
-    grade = 0
-    print("Printed2", context, course, submission, submitted_answers)
+    if right_count & wrong_count:
+        score = right_count / wrong_count * 100
+    print("Printed2", context, course, submission, 
+    submitted_answers,right_answers,wrong_count)
 
-    for i in submitted_answers:
-        if is_correct == True:
-            score +=1
-            print(score)
-        
+ 
+    
+    
 
     context = {"course" : course,
     "submitted_answers" : submitted_answers,
-    "grade" : score}
+    "grade" : score, "submission" : submission}
     
     
     return render(request, 'onlinecourse/exam_result_bootstrap.html', context)
