@@ -47,12 +47,22 @@
             <p> 'You failed with {{ grade }}%' </p>
             <p> Try again? </p>
         </div>
-        <a class="btn btn-link text-danger" href="{% url 'onlinecourse:course_details' course %}">re-test</a>
+        <a class="btn btn-link text-danger" href="{% url 'onlinecourse:course_details' course.pk %}">re-test</a>
         {% endif %}
         <div class="card-columns-vertical mt-1">
         <h5 class="">Exam results</h5>
-            <!--HINT Display exam results-->
-            {{ submission.choice_text }}
+        <!--HINT Display exam results-->
+        {% for question in course.question_set.all %}
+        <div class="card mt-1">
+        <div class="card-header"><h5>{{question.question_text}}</h5></div>
+        
+        
+            {% for choice in question.choice_set.all %}
+            {{ choice }} {{submitted_answers}}
+                {{ choice.choice_text }}
+            
+        {% endfor %}
+        {% endfor %}
             
         </div>
        
@@ -62,4 +72,3 @@
 console.log( {{submission.choice}} )
 </script>
 </html>
-
