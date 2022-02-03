@@ -40,12 +40,12 @@
     {% if grade > 80 %}
     <div class="alert alert-success">
        <!--HINT Display passed info -->
-       <p> 'You passed with {{ grade }}%' </p>
+       <p> '<b>Congradulations, {{user.username}}!</b>You passed the exam and completed the course with {{ grade }} / 100%' </p>
     </div>
         {% else %}
         <div class="alert alert-danger">
             <!--HINT Display failed info -->
-            <p> '<b>Failed!</b> Sorry {{user.username}} failed the exam with {{ grade }} / 100%' </p>
+            <p> '<b>Failed!</b> Sorry {{user.username}}, you failed the exam with {{ grade }} / 100%' </p>
             <p> Try again? </p>
         </div>
         <a class="btn btn-link text-danger" href="{% url 'onlinecourse:course_details' course.pk %}">re-test</a>
@@ -82,4 +82,3 @@
 
 </script>
 </html>
-
