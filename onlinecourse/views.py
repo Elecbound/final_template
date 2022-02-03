@@ -157,11 +157,14 @@ def submit(request, course_id):
 def show_exam_result(request, course_id, submission_id,):
     context = {}
     course = get_object_or_404(Course)
+    # I don't know how to get questions from anywhere but course, so I adapted. 
+    #This loop gets the amount of right answers to select.
     i = 0
     for question in course.question_set.all():
         for choice in question.choice_set.all():
             if choice.is_correct:
                 i += 1
+    #Just a little trial error area with a little math and splicing.
     submission = Submission.objects.get(id = submission_id)
     submitted_answers = submission.choices.all()
     submitted_answers = submitted_answers[::1]
@@ -178,7 +181,7 @@ def show_exam_result(request, course_id, submission_id,):
  
     
     
-
+    #Everything we're sending to the results page.
     context = {"course" : course,
     "submitted_answers" : submitted_answers,
     'right_answers' : right_answers,
