@@ -58,9 +58,10 @@
         
         
             {% for choice in question.choice_set.all %}
-            {{ choice }} {{submitted_answers}}
-                {{ choice.choice_text }}
-            
+                
+                    {{choice.choice_text}}
+                    
+        
         {% endfor %}
         {% endfor %}
             
@@ -69,6 +70,6 @@
     </div>
 </body>
 <script>
-console.log( {{submission.choice}} )
+
 </script>
 </html>
