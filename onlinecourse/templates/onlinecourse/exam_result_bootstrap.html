@@ -36,6 +36,7 @@
 </nav>
 
 <div class="container-fluid">
+    
     {% if grade > 80 %}
     <div class="alert alert-success">
        <!--HINT Display passed info -->
@@ -44,7 +45,7 @@
         {% else %}
         <div class="alert alert-danger">
             <!--HINT Display failed info -->
-            <p> 'You failed with {{ grade }}%' </p>
+            <p> '<b>Failed!</b> Sorry {{user.username}} failed the exam with {{ grade }} / 100%' </p>
             <p> Try again? </p>
         </div>
         <a class="btn btn-link text-danger" href="{% url 'onlinecourse:course_details' course.pk %}">re-test</a>
@@ -58,9 +59,17 @@
         
         
             {% for choice in question.choice_set.all %}
+                {% if choice in submitted_answers and choice.is_correct %}
+                   <p style ='color:green';> Correct Answer: {{choice.choice_text}} </p>
                 
-                    {{choice.choice_text}}
-                    
+                {% elif choice in submitted_answers and choice.is_correct == False %}
+                    <p style ='color:red';> {{choice.choice_text}} </p>
+                {% else %}
+                    <p style ='color:yellow';> Not Selected: {{choice.choice_text}} </p>
+
+                
+                
+                    {% endif %}
         
         {% endfor %}
         {% endfor %}
@@ -73,3 +82,4 @@
 
 </script>
 </html>
+
