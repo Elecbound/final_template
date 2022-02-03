@@ -157,18 +157,21 @@ def submit(request, course_id):
 def show_exam_result(request, course_id, submission_id,):
     context = {}
     course = get_object_or_404(Course)
+    i = 0
+    for question in course.question_set.all():
+        for choice in question.choice_set.all():
+            if choice.is_correct:
+                i += 1
     submission = Submission.objects.get(id = submission_id)
     submitted_answers = submission.choices.all()
     submitted_answers = submitted_answers[::1]
     right_answers = submission.choices.filter(is_correct = True)
     right_count = right_answers.count()
-    right_answers = right_answers[::1]
     wrong_answers = submission.choices.filter(is_correct = False)
     wrong_count = wrong_answers.count()
-    wrong_answers = wrong_answers[::1]
+    score_boost = 100 / i
     score = 0
-    if right_count & wrong_count:
-        score = right_count / wrong_count * 100
+    score = score_boost * right_count - (wrong_count * 5)
     print("Printed2", submitted_answers,right_answers)
     
 
@@ -179,7 +182,6 @@ def show_exam_result(request, course_id, submission_id,):
     context = {"course" : course,
     "submitted_answers" : submitted_answers,
     'right_answers' : right_answers,
-    'wrong_answers' : wrong_answers,
     "grade" : score, "submission" : submission}
     print(submission)
     
